@@ -3,6 +3,8 @@ defmodule DiscussWeb.TopicController do
 
   alias Discuss.Discussions
   alias Discuss.Discussions.Topic
+  alias Discuss.Repo
+  #alias DiscussWeb.Router.Helpers, as: Routes
 
   def index(conn, _params) do
     topics = Discussions.list_topics()
@@ -18,8 +20,8 @@ defmodule DiscussWeb.TopicController do
     case Discussions.create_topic(topic_params) do
       {:ok, topic} ->
         conn
-        |> put_flash(:info, "Topic created successfully.")
-        |> redirect(to: Routes.topic_path(conn, :show, topic))
+        |> put_flash(:info, "Topic '#{topic.title}' created successfully.")
+        |> redirect(to: Routes.topic_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
