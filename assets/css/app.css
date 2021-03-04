@@ -29,8 +29,13 @@
 .alert:empty {
   display: none;
 }
+
 .invalid-feedback {
-  color: #a94442;
+  color: red;
   display: block;
-  margin: -1rem 0 2rem;
+  top: 37px;
+  text-transform: capitalize;
 }
+
+
+
