@@ -43,10 +43,10 @@ defmodule DiscussWeb.TopicController do
     topic = Discussions.get_topic!(id)
 
     case Discussions.update_topic(topic, topic_params) do
-      {:ok, topic} ->
+      {:ok, _topic} ->
         conn
         |> put_flash(:info, "Topic updated successfully.")
-        |> redirect(to: Routes.topic_path(conn, :show, topic))
+        |> redirect(to: Routes.topic_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", topic: topic, changeset: changeset)
@@ -54,11 +54,17 @@ defmodule DiscussWeb.TopicController do
   end
 
   def delete(conn, %{"id" => id}) do
-    topic = Discussions.get_topic!(id)
-    {:ok, _topic} = Discussions.delete_topic(topic)
+  #   topic = Discussions.get_topic!(id)
+  #   {:ok, _topic} = Discussions.delete_topic(topic)
 
-    conn
-    |> put_flash(:info, "Topic deleted successfully.")
-    |> redirect(to: Routes.topic_path(conn, :index))
-  end
+  #   conn
+  #   |> put_flash(:info, "Topic deleted successfully.")
+  #   |> redirect(to: Routes.topic_path(conn, :index))
+  # end
+
+  Repo.get!(Topic, id) |> Repo.delete!
+
+  conn
+  |> put_flash(:info, "Topic deleted")
+  |> redirect(to: Routes.topic_path(conn, :index))
 end
