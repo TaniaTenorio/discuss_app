@@ -3,8 +3,10 @@ defmodule DiscussWeb.TopicController do
 
   alias Discuss.Discussions
   alias Discuss.Discussions.Topic
-  alias Discuss.Repo
+  #alias Discuss.Repo
   #alias DiscussWeb.Router.Helpers, as: Routes
+
+  plug DiscussWeb.Plugs.RequireAuth when action in [:new, :create, :edit, :update, :delete]
 
   def index(conn, _params) do
     topics = Discussions.list_topics()
