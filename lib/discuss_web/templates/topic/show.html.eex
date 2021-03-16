@@ -1,13 +1,3 @@
-<h1>Show Topic</h1>
+<%= @topic.title %>
 
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @topic.title %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.topic_path(@conn, :edit, @topic) %></span>
-<span><%= link "Back", to: Routes.topic_path(@conn, :index) %></span>
+<button>Ping!</button>
