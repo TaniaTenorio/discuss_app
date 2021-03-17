@@ -58,7 +58,7 @@ socket.connect()
 const createSocket = (topicId) => {
   let channel = socket.channel(`comments:${topicId}`, {})
   channel.join()
-    .receive("ok", resp => { 
+    .receive("ok", resp => {
       renderComments(resp.comments)
     })
     .receive("error", resp => { 
@@ -93,9 +93,14 @@ function renderComment(event) {
 }
 
 function commentTemplate(comment) {
+  const email = comment.user ? comment.user.email : 'Anonymous'
+
   return `
       <li class="collection-item">
         ${comment.content}
+        <div class="secondary-content">
+          ${email}
+        </div>
       </li>
     `
 }
