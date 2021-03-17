@@ -65,6 +65,10 @@ const createSocket = (topicId) => {
       console.log("Unable to join", resp) 
     })
 
+  // Add an event listener to the channel with the same name assigned in the comments_channel broadcast function
+  // this listener will render the new comment created
+  channel.on(`comments:${topicId}:new`, renderComment)
+
   document.querySelector("button").addEventListener('click', () => {
     const content = document.querySelector('textarea').value
 
@@ -72,16 +76,28 @@ const createSocket = (topicId) => {
   })
 }
 
+// initial render of comments list
 function renderComments(comments) {
   const renderedComments = comments.map((comment) => {
-    return `
+    return commentTemplate(comment)
+  })
+
+  document.querySelector('.collection').innerHTML = renderedComments.join('')
+}
+
+// add new created comment to existing list
+function renderComment(event) {
+  const renderedComment = commentTemplate(event.comment)
+
+  document.querySelector('.collection').innerHTML += renderedComment
+}
+
+function commentTemplate(comment) {
+  return `
       <li class="collection-item">
         ${comment.content}
       </li>
     `
-  })
-
-  document.querySelector('.collection').innerHTML = renderedComments.join('')
 }
 
 window.createSocket = createSocket
